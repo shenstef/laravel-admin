@@ -20,7 +20,7 @@ class Map extends Field
      */
     public static function getAssets()
     {
-        switch (config('admin.map_provider')) {
+        switch (config(request_path() .'.map_provider')) {
             case 'tencent':
                 $js = '//map.qq.com/api/js?v=2.exp&key='.env('TENCENT_MAP_API_KEY');
                 break;
@@ -51,7 +51,7 @@ class Map extends Field
          * Google map is blocked in mainland China
          * people in China can use Tencent map instead(;
          */
-        switch (config('admin.map_provider')) {
+        switch (config(request_path() .'.map_provider')) {
             case 'tencent':
                 $this->useTencentMap();
                 break;

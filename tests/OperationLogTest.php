@@ -23,7 +23,7 @@ class OperationLogTest extends TestCase
 
     public function testGenerateLogs()
     {
-        $table = config('admin.database.operation_log_table');
+        $table = config(request_path() .'.database.operation_log_table');
 
         $this->visit('admin/auth/menu')
             ->seePageIs('admin/auth/menu')
@@ -45,7 +45,7 @@ class OperationLogTest extends TestCase
 
     public function testDeleteLogs()
     {
-        $table = config('admin.database.operation_log_table');
+        $table = config(request_path() .'.database.operation_log_table');
 
         $this->visit('admin/auth/logs')
             ->seePageIs('admin/auth/logs')
@@ -61,7 +61,7 @@ class OperationLogTest extends TestCase
 
     public function testDeleteMultipleLogs()
     {
-        $table = config('admin.database.operation_log_table');
+        $table = config(request_path() .'.database.operation_log_table');
 
         $this->visit('admin/auth/menu')
             ->visit('admin/auth/users')

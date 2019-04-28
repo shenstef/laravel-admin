@@ -81,7 +81,7 @@ class RoleController extends Controller
      */
     protected function grid()
     {
-        $roleModel = config('admin.database.roles_model');
+        $roleModel = config(request_path() .'.database.roles_model');
 
         $grid = new Grid(new $roleModel());
 
@@ -118,7 +118,7 @@ class RoleController extends Controller
      */
     protected function detail($id)
     {
-        $roleModel = config('admin.database.roles_model');
+        $roleModel = config(request_path() .'.database.roles_model');
 
         $show = new Show($roleModel::findOrFail($id));
 
@@ -141,8 +141,8 @@ class RoleController extends Controller
      */
     public function form()
     {
-        $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
+        $roleModel = config(request_path() .'.database.roles_model');
 
         $form = new Form(new $roleModel());
 

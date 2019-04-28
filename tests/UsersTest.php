@@ -35,14 +35,14 @@ class UsersTest extends TestCase
             ->see('Create')
             ->submitForm('Submit', $user)
             ->seePageIs('admin/auth/users')
-            ->seeInDatabase(config('admin.database.users_table'), ['username' => 'Test']);
+            ->seeInDatabase(config(request_path() .'.database.users_table'), ['username' => 'Test']);
 
         // assign role to user
         $this->visit('admin/auth/users/2/edit')
             ->see('Edit')
             ->submitForm('Submit', ['roles' => [1]])
             ->seePageIs('admin/auth/users')
-            ->seeInDatabase(config('admin.database.role_users_table'), ['user_id' => 2, 'role_id' => 1]);
+            ->seeInDatabase(config(request_path() .'.database.role_users_table'), ['user_id' => 2, 'role_id' => 1]);
 
         $this->visit('admin/auth/logout')
             ->dontSeeIsAuthenticated('admin')
@@ -67,7 +67,7 @@ class UsersTest extends TestCase
             ->see('Create')
             ->submitForm('Submit', ['name' => 'test', 'roles' => [1]])
             ->seePageIs('admin/auth/users')
-            ->seeInDatabase(config('admin.database.users_table'), ['name' => 'test']);
+            ->seeInDatabase(config(request_path() .'.database.users_table'), ['name' => 'test']);
     }
 
     public function testResetPassword()

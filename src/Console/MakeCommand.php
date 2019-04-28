@@ -14,6 +14,7 @@ class MakeCommand extends GeneratorCommand
      */
     protected $signature = 'admin:make {name} 
         {--model=} 
+        {--route=}
         {--stub= : Path to the custom stub file. } 
         {--O|output}';
 
@@ -159,7 +160,7 @@ class MakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return config('admin.route.namespace');
+        return config($this->option('route') .'.route.namespace');
     }
 
     /**

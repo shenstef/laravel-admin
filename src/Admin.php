@@ -151,7 +151,7 @@ class Admin
      */
     public function menu()
     {
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = config(request_path() .'.database.menu_model');
 
         return (new $menuModel())->toTree();
     }
@@ -173,7 +173,7 @@ class Admin
      */
     public function title()
     {
-        return self::$metaTitle ? self::$metaTitle : config('admin.title');
+        return self::$metaTitle ? self::$metaTitle : config(request_path() .'.title');
     }
 
     /**
@@ -183,7 +183,7 @@ class Admin
      */
     public function user()
     {
-        return Auth::guard('admin')->user();
+        return Auth::guard(request_path())->user();
     }
 
     /**
@@ -224,8 +224,8 @@ class Admin
     public function registerAuthRoutes()
     {
         $attributes = [
-            'prefix'     => config('admin.route.prefix'),
-            'middleware' => config('admin.route.middleware'),
+            'prefix'     => config(request_path() .'.route.prefix'),
+            'middleware' => config(request_path() .'.route.middleware'),
         ];
 
         app('router')->group($attributes, function ($router) {
@@ -241,7 +241,7 @@ class Admin
                 $router->resource('auth/logs', 'LogController', ['only' => ['index', 'destroy']]);
             });
 
-            $authController = config('admin.auth.controller', AuthController::class);
+            $authController = config(request_path() .'.auth.controller', AuthController::class);
 
             /* @var \Illuminate\Routing\Router $router */
             $router->get('auth/login', $authController.'@getLogin')->name('admin.login');

@@ -70,7 +70,7 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
 
-        return redirect(config('admin.route.prefix'));
+        return redirect(config(request_path() .'.route.prefix'));
     }
 
     /**
@@ -111,7 +111,7 @@ class AuthController extends Controller
      */
     protected function settingForm()
     {
-        $class = config('admin.database.users_model');
+        $class = config(request_path() .'.database.users_model');
 
         $form = new Form(new $class());
 
@@ -164,7 +164,7 @@ class AuthController extends Controller
             return $this->redirectTo();
         }
 
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : config('admin.route.prefix');
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : config(request_path() .'.route.prefix');
     }
 
     /**
@@ -200,6 +200,6 @@ class AuthController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard(request_path());
     }
 }

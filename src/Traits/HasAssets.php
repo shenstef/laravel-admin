@@ -94,7 +94,7 @@ trait HasAssets
             return;
         }
 
-        $skin = config('admin.skin', 'skin-blue-light');
+        $skin = config(request_path() .'.skin', 'skin-blue-light');
 
         array_unshift(static::$baseCss, "vendor/laravel-admin/AdminLTE/dist/css/skins/{$skin}.min.css");
 

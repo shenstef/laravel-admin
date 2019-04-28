@@ -2,13 +2,13 @@
 <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-        @if(config('admin.show_environment'))
+        @if(config(request_path() .'.show_environment'))
             <strong>Env</strong>&nbsp;&nbsp; {!! env('APP_ENV') !!}
         @endif
 
         &nbsp;&nbsp;&nbsp;&nbsp;
 
-        @if(config('admin.show_version'))
+        @if(config(request_path() .'.show_version'))
         <strong>Version</strong>&nbsp;&nbsp; {!! \Encore\Admin\Admin::VERSION !!}
         @endif
 

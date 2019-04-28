@@ -20,7 +20,7 @@ trait ImageField
      */
     public function defaultDirectory()
     {
-        return config('admin.upload.directory.image');
+        return config(request_path() .'.upload.directory.image');
     }
 
     /**

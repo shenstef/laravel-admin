@@ -49,7 +49,7 @@ class MultipleFile extends Field
      */
     public function defaultDirectory()
     {
-        return config('admin.upload.directory.file');
+        return config(request_path() .'.upload.directory.file');
     }
 
     /**

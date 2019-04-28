@@ -33,9 +33,9 @@ class MenuController extends Controller
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_base_path('auth/menu'));
 
-                    $menuModel = config('admin.database.menu_model');
-                    $permissionModel = config('admin.database.permissions_model');
-                    $roleModel = config('admin.database.roles_model');
+                    $menuModel = config(request_path() .'.database.menu_model');
+                    $permissionModel = config(request_path() .'.database.permissions_model');
+                    $roleModel = config(request_path() .'.database.roles_model');
 
                     $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
                     $form->text('title', trans('admin.title'))->rules('required');
@@ -69,7 +69,7 @@ class MenuController extends Controller
      */
     protected function treeView()
     {
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = config(request_path() .'.database.menu_model');
 
         return $menuModel::tree(function (Tree $tree) {
             $tree->disableCreate();
@@ -115,9 +115,9 @@ class MenuController extends Controller
      */
     public function form()
     {
-        $menuModel = config('admin.database.menu_model');
-        $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
+        $menuModel = config(request_path() .'.database.menu_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
+        $roleModel = config(request_path() .'.database.roles_model');
 
         $form = new Form(new $menuModel());
 

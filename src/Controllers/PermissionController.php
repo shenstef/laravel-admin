@@ -82,7 +82,7 @@ class PermissionController extends Controller
      */
     protected function grid()
     {
-        $permissionModel = config('admin.database.permissions_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
 
         $grid = new Grid(new $permissionModel());
 
@@ -105,8 +105,8 @@ class PermissionController extends Controller
                     return "<span class='label label-primary'>{$name}</span>";
                 })->implode('&nbsp;');
 
-                if (!empty(config('admin.route.prefix'))) {
-                    $path = '/'.trim(config('admin.route.prefix'), '/').$path;
+                if (!empty(config(request_path() .'.route.prefix'))) {
+                    $path = '/'.trim(config(request_path() .'.route.prefix'), '/').$path;
                 }
 
                 return "<div style='margin-bottom: 5px;'>$method<code>$path</code></div>";
@@ -134,7 +134,7 @@ class PermissionController extends Controller
      */
     protected function detail($id)
     {
-        $permissionModel = config('admin.database.permissions_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
 
         $show = new Show($permissionModel::findOrFail($id));
 
@@ -157,8 +157,8 @@ class PermissionController extends Controller
                     return "<span class='label label-primary'>{$name}</span>";
                 })->implode('&nbsp;');
 
-                if (!empty(config('admin.route.prefix'))) {
-                    $path = '/'.trim(config('admin.route.prefix'), '/').$path;
+                if (!empty(config(request_path() .'.route.prefix'))) {
+                    $path = '/'.trim(config(request_path() .'.route.prefix'), '/').$path;
                 }
 
                 return "<div style='margin-bottom: 5px;'>$method<code>$path</code></div>";
@@ -178,7 +178,7 @@ class PermissionController extends Controller
      */
     public function form()
     {
-        $permissionModel = config('admin.database.permissions_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
 
         $form = new Form(new $permissionModel());
 
@@ -205,7 +205,7 @@ class PermissionController extends Controller
      */
     protected function getHttpMethodsOptions()
     {
-        $permissionModel = config('admin.database.permissions_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
 
         return array_combine($permissionModel::$httpMethods, $permissionModel::$httpMethods);
     }

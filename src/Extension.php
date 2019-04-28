@@ -301,7 +301,7 @@ abstract class Extension
      */
     protected static function createMenu($title, $uri, $icon = 'fa-bars', $parentId = 0)
     {
-        $menuModel = config('admin.database.menu_model');
+        $menuModel = config(request_path() .'.database.menu_model');
 
         $lastOrder = $menuModel::max('order');
 
@@ -323,7 +323,7 @@ abstract class Extension
      */
     protected static function createPermission($name, $slug, $path)
     {
-        $permissionModel = config('admin.database.permissions_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
 
         $permissionModel::create([
             'name'      => $name,
@@ -341,8 +341,8 @@ abstract class Extension
     {
         $attributes = array_merge(
             [
-                'prefix'     => config('admin.route.prefix'),
-                'middleware' => config('admin.route.middleware'),
+                'prefix'     => config(request_path() .'.route.prefix'),
+                'middleware' => config(request_path() .'.route.middleware'),
             ],
             static::config('route', [])
         );

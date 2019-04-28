@@ -63,7 +63,7 @@ trait UploadField
      */
     protected function initStorage()
     {
-        $this->disk(config('admin.upload.disk'));
+        $this->disk(config(request_path() .'.upload.disk'));
     }
 
     /**
@@ -332,7 +332,7 @@ trait UploadField
             return $this->storage->url($path);
         }
 
-        return Storage::disk(config('admin.upload.disk'))->url($path);
+        return Storage::disk(config(request_path() .'.upload.disk'))->url($path);
     }
 
     /**

@@ -28,11 +28,11 @@ class Permission extends Model
      */
     public function __construct(array $attributes = [])
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = config(request_path() .'.database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.permissions_table'));
+        $this->setTable(config(request_path() .'.database.permissions_table'));
 
         parent::__construct($attributes);
     }
@@ -44,9 +44,9 @@ class Permission extends Model
      */
     public function roles() : BelongsToMany
     {
-        $pivotTable = config('admin.database.role_permissions_table');
+        $pivotTable = config(request_path() .'.database.role_permissions_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = config(request_path() .'.database.roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'permission_id', 'role_id');
     }
@@ -67,7 +67,7 @@ class Permission extends Model
         $method = $this->http_method;
 
         $matches = array_map(function ($path) use ($method) {
-            $path = trim(config('admin.route.prefix'), '/').$path;
+            $path = trim(config(request_path() .'.route.prefix'), '/').$path;
 
             if (Str::contains($path, ':')) {
                 list($method, $path) = explode(':', $path);

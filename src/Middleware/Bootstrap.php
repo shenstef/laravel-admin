@@ -17,7 +17,7 @@ class Bootstrap
 
         Grid\Filter::registerFilters();
 
-        if (file_exists($bootstrap = config('admin.bootstrap', admin_path('bootstrap.php')))) {
+        if (file_exists($bootstrap = config(request_path() .'.bootstrap', admin_path('bootstrap.php')))) {
             require $bootstrap;
         }
 

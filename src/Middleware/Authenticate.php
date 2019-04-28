@@ -18,9 +18,9 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        $redirectTo = admin_base_path(config('admin.auth.redirect_to', 'auth/login'));
+        $redirectTo = admin_base_path(config(request_path() .'.auth.redirect_to', 'auth/login'));
 
-        if (Auth::guard('admin')->guest() && !$this->shouldPassThrough($request)) {
+        if (Auth::guard(request_path())->guest() && !$this->shouldPassThrough($request)) {
             return redirect()->guest($redirectTo);
         }
 
@@ -36,11 +36,10 @@ class Authenticate
      */
     protected function shouldPassThrough($request)
     {
-        $excepts = config('admin.auth.excepts', [
+        $excepts = config(request_path() .'.auth.excepts', [
             'auth/login',
             'auth/logout',
         ]);
-
         return collect($excepts)
             ->map('admin_base_path')
             ->contains(function ($except) use ($request) {

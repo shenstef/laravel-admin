@@ -16,11 +16,11 @@ class Role extends Model
      */
     public function __construct(array $attributes = [])
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = config(request_path() .'.database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.roles_table'));
+        $this->setTable(config(request_path() .'.database.roles_table'));
 
         parent::__construct($attributes);
     }
@@ -32,9 +32,9 @@ class Role extends Model
      */
     public function administrators() : BelongsToMany
     {
-        $pivotTable = config('admin.database.role_users_table');
+        $pivotTable = config(request_path() .'.database.role_users_table');
 
-        $relatedModel = config('admin.database.users_model');
+        $relatedModel = config(request_path() .'.database.users_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'user_id');
     }
@@ -46,9 +46,9 @@ class Role extends Model
      */
     public function permissions() : BelongsToMany
     {
-        $pivotTable = config('admin.database.role_permissions_table');
+        $pivotTable = config(request_path() .'.database.role_permissions_table');
 
-        $relatedModel = config('admin.database.permissions_model');
+        $relatedModel = config(request_path() .'.database.permissions_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'permission_id');
     }

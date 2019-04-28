@@ -30,12 +30,12 @@ class AdminServiceProvider extends ServiceProvider
      * @var array
      */
     protected $routeMiddleware = [
-        'admin.auth'       => Middleware\Authenticate::class,
-        'admin.pjax'       => Middleware\Pjax::class,
-        'admin.log'        => Middleware\LogOperation::class,
-        'admin.permission' => Middleware\Permission::class,
-        'admin.bootstrap'  => Middleware\Bootstrap::class,
-        'admin.session'    => Middleware\Session::class,
+        'backend.auth'       => Encore\Admin\Middleware\Authenticate::class,
+        'backend.pjax'       => Encore\Admin\Middleware\Pjax::class,
+        'backend.log'        => Encore\Admin\Middleware\LogOperation::class,
+        'backend.permission' => Encore\Admin\Middleware\Permission::class,
+        'backend.bootstrap'  => Encore\Admin\Middleware\Bootstrap::class,
+        'backend.session'    => Encore\Admin\Middleware\Session::class,
     ];
 
     /**
@@ -44,12 +44,12 @@ class AdminServiceProvider extends ServiceProvider
      * @var array
      */
     protected $middlewareGroups = [
-        'admin' => [
-            'admin.auth',
-            'admin.pjax',
-            'admin.log',
-            'admin.bootstrap',
-            'admin.permission',
+        'backend' => [
+            'backend.auth',
+            'backend.pjax',
+            'backend.log',
+            'backend.bootstrap',
+            'backend.permission',
 //            'admin.session',
         ],
     ];
@@ -63,11 +63,10 @@ class AdminServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'admin');
 
-        if (config('admin.https') || config('admin.secure')) {
+        if (config(request_path() .'.https') || config(request_path() .'.secure')) {
             \URL::forceScheme('https');
             $this->app['request']->server->set('HTTPS', true);
         }
-
         if (file_exists($routes = admin_path('routes.php'))) {
             $this->loadRoutesFrom($routes);
         }
@@ -108,7 +107,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected function loadAdminAuthConfig()
     {
-        config(array_dot(config('admin.auth', []), 'auth.'));
+        config(array_dot(config( request_path() .'.auth', []), 'auth.'));
     }
 
     /**
@@ -118,6 +117,10 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected function registerRouteMiddleware()
     {
+        if (! $this->app->runningInConsole() && !is_null(config(request_path() .'.route_middleware')) ) {
+            $this->routeMiddleware = config(request_path() .'.route_middleware');
+            $this->middlewareGroups = config(request_path() .'.middleward_group');
+        }
         // register route middleware.
         foreach ($this->routeMiddleware as $key => $middleware) {
             app('router')->aliasMiddleware($key, $middleware);

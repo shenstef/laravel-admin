@@ -92,7 +92,7 @@ class CategoryController extends Controller
 ```php
 Category::tree(function ($tree) {
     $tree->branch(function ($branch) {
-        $src = config('admin.upload.host') . '/' . $branch['logo'] ;
+        $src = config(request_path() .'.upload.host') . '/' . $branch['logo'] ;
         $logo = "<img src='$src' style='max-width:30px;max-height:30px' class='img'/>";
 
         return "{$branch['id']} - {$branch['title']} $logo";

@@ -2,6 +2,22 @@
 
 use Illuminate\Support\MessageBag;
 
+if (!function_exists('request_path')) {
+
+    /**
+     * Get admin path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function request_path()
+    {
+        $path = explode('/', request()->path());
+        return $path[0];
+    }
+}
+
 if (!function_exists('admin_path')) {
 
     /**
@@ -13,7 +29,7 @@ if (!function_exists('admin_path')) {
      */
     function admin_path($path = '')
     {
-        return ucfirst(config('admin.directory')).($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return ucfirst(config(request_path() .'.directory')).($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -33,7 +49,7 @@ if (!function_exists('admin_url')) {
             return $path;
         }
 
-        $secure = $secure ?: (config('admin.https') || config('admin.secure'));
+        $secure = $secure ?: (config(request_path() .'.https') || config(request_path() .'.secure'));
 
         return url(admin_base_path($path), $parameters, $secure);
     }
@@ -49,7 +65,7 @@ if (!function_exists('admin_base_path')) {
      */
     function admin_base_path($path = '')
     {
-        $prefix = '/'.trim(config('admin.route.prefix'), '/');
+        $prefix = '/'.trim(config(request_path() .'.route.prefix'), '/');
 
         $prefix = ($prefix == '/') ? '' : $prefix;
 
@@ -148,7 +164,7 @@ if (!function_exists('admin_asset')) {
      */
     function admin_asset($path)
     {
-        return (config('admin.https') || config('admin.secure')) ? secure_asset($path) : asset($path);
+        return (config(request_path() .'.https') || config(request_path() .'.secure')) ? secure_asset($path) : asset($path);
     }
 }
 

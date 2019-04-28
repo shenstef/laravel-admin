@@ -72,7 +72,7 @@ class ExtendCommand extends Command
     {
         $this->filesystem = $filesystem;
 
-        $this->extensionDir = config('admin.extension_dir');
+        $this->extensionDir = config(request_path() .'.extension_dir');
 
         InputExtensionDir:
         if (empty($this->extensionDir)) {

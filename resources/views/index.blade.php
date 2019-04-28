@@ -18,7 +18,7 @@
 
 </head>
 
-<body class="hold-transition {{config('admin.skin')}} {{join(' ', config('admin.layout'))}}">
+<body class="hold-transition {{config(request_path() .'.skin')}} {{join(' ', config(request_path() .'.layout'))}}">
 <div class="wrapper">
 
     @include('admin::partials.header')

@@ -35,11 +35,11 @@ class Menu extends Model
      */
     public function __construct(array $attributes = [])
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = config(request_path() .'.database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.menu_table'));
+        $this->setTable(config(request_path() .'.database.menu_table'));
 
         parent::__construct($attributes);
     }
@@ -51,9 +51,9 @@ class Menu extends Model
      */
     public function roles() : BelongsToMany
     {
-        $pivotTable = config('admin.database.role_menu_table');
+        $pivotTable = config(request_path() .'.database.role_menu_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = config(request_path() .'.database.roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'role_id');
     }
@@ -63,7 +63,7 @@ class Menu extends Model
      */
     public function allNodes() : array
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = config(request_path() .'.database.connection') ?: config('database.default');
         $orderColumn = DB::connection($connection)->getQueryGrammar()->wrap($this->orderColumn);
 
         $byOrder = $orderColumn.' = 0,'.$orderColumn;
@@ -78,7 +78,7 @@ class Menu extends Model
      */
     public function withPermission()
     {
-        return (bool) config('admin.menu_bind_permission');
+        return (bool) config(request_path() .'.menu_bind_permission');
     }
 
     /**

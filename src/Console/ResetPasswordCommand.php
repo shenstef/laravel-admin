@@ -25,7 +25,7 @@ class ResetPasswordCommand extends Command
      */
     public function handle()
     {
-        $userModel = config('admin.database.users_model');
+        $userModel = config(request_path() .'.database.users_model');
 
         $users = $userModel::all();
 

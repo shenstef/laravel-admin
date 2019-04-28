@@ -53,12 +53,14 @@ class Permission
     public function checkRoutePermission(Request $request)
     {
         if (!$middleware = collect($request->route()->middleware())->first(function ($middleware) {
-            return Str::startsWith($middleware, $this->middlewarePrefix);
+//            return Str::startsWith($middleware, $this->middlewarePrefix);
+            return Str::startsWith($middleware, request_path().'.permission:');
         })) {
             return false;
         }
 
-        $args = explode(',', str_replace($this->middlewarePrefix, '', $middleware));
+//        $args = explode(',', str_replace($this->middlewarePrefix, '', $middleware));
+        $args = explode(',', str_replace(request_path().'.permission:', '', $middleware));
 
         $method = array_shift($args);
 
@@ -80,7 +82,7 @@ class Permission
      */
     protected function shouldPassThrough($request)
     {
-        $excepts = config('admin.auth.excepts', [
+        $excepts = config(request_path() .'.auth.excepts', [
             'auth/login',
             'auth/logout',
         ]);

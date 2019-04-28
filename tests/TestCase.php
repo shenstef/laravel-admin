@@ -34,7 +34,7 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $adminConfig = require __DIR__.'/config/admin.php';
+        $adminConfig = require __DIR__.'/config/'. request_path() .'.php';
 
         $this->app['config']->set('database.default', 'mysql');
         $this->app['config']->set('database.connections.mysql.host', env('MYSQL_HOST', 'localhost'));

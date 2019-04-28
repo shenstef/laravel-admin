@@ -76,7 +76,7 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $userModel = config('admin.database.users_model');
+        $userModel = config(request_path() .'.database.users_model');
 
         $grid = new Grid(new $userModel());
 
@@ -111,7 +111,7 @@ class UserController extends Controller
      */
     protected function detail($id)
     {
-        $userModel = config('admin.database.users_model');
+        $userModel = config(request_path() .'.database.users_model');
 
         $show = new Show($userModel::findOrFail($id));
 
@@ -137,16 +137,16 @@ class UserController extends Controller
      */
     public function form()
     {
-        $userModel = config('admin.database.users_model');
-        $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
+        $userModel = config(request_path() .'.database.users_model');
+        $permissionModel = config(request_path() .'.database.permissions_model');
+        $roleModel = config(request_path() .'.database.roles_model');
 
         $form = new Form(new $userModel());
 
         $form->display('id', 'ID');
 
         if (request()->isMethod('POST')) {
-            $userTable = config('admin.database.users_table');
+            $userTable = config(request_path() .'.database.users_table');
             $userNameRules = "required|unique:{$userTable}";
         } else {
             $userNameRules = 'required';
