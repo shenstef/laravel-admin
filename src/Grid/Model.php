@@ -174,6 +174,16 @@ class Model
     }
 
     /**
+     * Get per-page number.
+     *
+     * @return int
+     */
+    public function getPerPage()
+    {
+        return $this->perPage;
+    }
+
+    /**
      * Get the query string variable used to store the sort.
      *
      * @return string
@@ -458,7 +468,7 @@ class Model
      */
     protected function resolvePerPage($paginate)
     {
-        if ($perPage = app('request')->input($this->perPageName)) {
+        if ($perPage = request($this->perPageName)) {
             if (is_array($paginate)) {
                 $paginate['arguments'][0] = (int) $perPage;
 
@@ -509,14 +519,25 @@ class Model
             return;
         }
 
-        if (str_contains($this->sort['column'], '.')) {
+        if (Str::contains($this->sort['column'], '.')) {
             $this->setRelationSort($this->sort['column']);
         } else {
             $this->resetOrderBy();
 
+            // get column. if contains "cast", set set column as cast
+            if (!empty($this->sort['cast'])) {
+                $column = "CAST({$this->sort['column']} AS {$this->sort['cast']}) {$this->sort['type']}";
+                $method = 'orderByRaw';
+                $arguments = [$column];
+            } else {
+                $column = $this->sort['column'];
+                $method = 'orderBy';
+                $arguments = [$column, $this->sort['type']];
+            }
+
             $this->queries->push([
-                'method'    => 'orderBy',
-                'arguments' => [$this->sort['column'], $this->sort['type']],
+                'method'    => $method,
+                'arguments' => $arguments,
             ]);
         }
     }
